@@ -13,16 +13,15 @@
 
 {
     "layer": "top",
-    "position": "top",
+    "position": "bottom",
     "mod": "dock",
     "exclusive": true,
     "gtk-layer-shell": true,
-    "margin-top": 6, "margin-bottom": 0,
-    "margin-left": 5, "margin-right": 5,
+    "margin-top": 0, "margin-bottom": 0,
     "passthrough": false,
     "height": 0,
 
-    "modules-left": ["group/customs", "mpris", "group/hardware"],
+    "modules-left": ["group/customs", "wlr/taskbar"],
     "modules-center": ["hyprland/workspaces"],
     "modules-right": ["tray", "group/controlCenter", "power-profiles-daemon", "clock", "custom/swaync"],
     
@@ -31,7 +30,6 @@
         "format-en": "ENG",
         "format-tr": "TR"
     },
-
 // ====================================================
 
 
@@ -55,10 +53,10 @@
 },
 
 "custom/os_button": {
-    "format": " ",
+    "format": "",
     "tooltip": false,
     
-    "on-click": "~/.config/hypr/scripts/rofilaunch.sh --menu",
+    "on-click": "~/.config/hypr/scripts/rofilaunch.sh --drun",
 },
 
 
@@ -166,7 +164,6 @@
     "tooltip-format": "{icon}  {volume}%",
     
     "format-icons": {
-    "headphone": " ",
       "format-muted": " ",
       "default": [" ", " "]
     },
@@ -205,12 +202,12 @@
 
     "format": "{icon}",
     "format-icons": {
-        "notification": "<span foreground='#7b82c6'><sup></sup></span>",
-        "none": "",
+        "notification": "<span foreground='#7b82c6'><sup></sup></span>",
+        "none": "",
         "dnd-notification": "<span foreground='red'><sup></sup></span>",
         "dnd-none": "",
-        "inhibited-notification": "<span foreground='red'><sup></sup></span>",
-        "inhibited-none": "",
+        "inhibited-notification": "<span foreground='red'><sup></sup></span>",
+        "inhibited-none": "",
         "dnd-inhibited-notification": "<span foreground='red'><sup></sup></span>",
         "dnd-inhibited-none": ""
     },
@@ -248,8 +245,8 @@
 		//"3": "三",
         //"4": "四",
         //"5": "五",
-        "urgent": "",
-        //"active": "",
+        "urgent": " ",
+        //"active": " ",
         //"default": "󰧞",
         "sort-by-number": true
         },
@@ -264,10 +261,12 @@
 // ====================== Taskbar ====================== 
 
 "wlr/taskbar": {
-    "format": "{icon} {title:.18}",
-    "icon-size": 18,
-    "spacing": 3,
-    
+    "format": "{icon}",
+    "icon-size": 36,
+    "spacing": 16,
+   
+    "sort-by-app-id": true,
+
     "on-click-middle": "close",
     "tooltip-format": "{title}",
     "ignore-list": [],
@@ -277,20 +276,15 @@
 
 // ======================================================
 
-
-
-
-
-
 // ====================== Utilities ======================
 
 "tray": {
     "icon-size": 18,
-    "spacing": 8
+    "spacing": 9
 },
 
 "clock": {
-    "format": " {:%R}",
+    "format": "   {:%R\n %d.%m.%Y} ",
     "tooltip-format": " {:%d %B %Y}",
     
     "on-click": "eww open calendar --toggle --no-daemonize & eww close actioncenter musiccenter",
@@ -317,29 +311,17 @@
 
 // ====================== Groups ======================
 
-"group/hardware": {
-		"orientation": "horizontal",
-		"modules": [
-			"memory",
-			"cpu"		
-            ]
-},
-
 "group/customs": {
 	"orientation": "horizontal",
-	"modules": ["custom/search", "custom/runner", "custom/os_button"]
+	"modules": ["custom/os_button"]
 },
 
 "group/controlCenter": {
 	"orientation": "horizontal",
 	"modules": [
-		"pulseaudio",
-		"network",
 		"battery",
-        "backlight"
+		"network",
+		"pulseaudio",
 	]
 },
-
-// ====================================================
-
 }
