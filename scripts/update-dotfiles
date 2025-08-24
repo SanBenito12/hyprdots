@@ -69,8 +69,27 @@ if pgrep waybar >/dev/null 2>&1; then
 fi
 (waybar & disown) >/dev/null 2>&1 || true
 
-if pgrep swww-daemon >/dev/null 2>&1; then
+# Proper swww daemon restart and wallpaper restoration
+info "Restarting wallpaper daemon..."
+if pgrep -x swww-daemon >/dev/null 2>&1; then
+    pkill -x swww-daemon >/dev/null 2>&1 || true
+    sleep 0.5
+fi
+
+# Initialize swww daemon properly
+if ! swww init >/dev/null 2>&1; then
+    info "swww init failed, trying daemon method..."
+    swww-daemon >/dev/null 2>&1 & disown
+    sleep 0.5
+else
+    sleep 0.3
+fi
+
+# Verify daemon and restore wallpaper
+if swww query >/dev/null 2>&1; then
     bash ~/.config/hypr/scripts/restore_wallpaper.sh
+else
+    error "swww daemon failed to start after update"
 fi
 
 pgrep eww >/dev/null && killall eww && eww daemon >/dev/null 2>&1 && eww open-many stats desktopmusic >/dev/null 2>&1 || true

@@ -141,10 +141,24 @@ if pgrep waybar >/dev/null 2>&1; then
 fi
 (waybar & disown) >/dev/null 2>&1 || true
 
-if ! swww-daemon >/dev/null 2>&1 & disown; then
-    error "swww-daemon failed"
-else
+# Proper swww daemon initialization
+info "Initializing wallpaper daemon..."
+if ! pgrep -x swww-daemon >/dev/null 2>&1; then
+    if ! swww init >/dev/null 2>&1; then
+        info "swww init failed, trying daemon method..."
+        swww-daemon >/dev/null 2>&1 & disown
+        sleep 0.5
+    else
+        sleep 0.3
+    fi
+fi
+
+# Verify daemon is working before applying wallpaper
+if swww query >/dev/null 2>&1; then
+    info "Applying default wallpaper..."
     swww img ~/.config/hypr/wallpapers/Lines.png --transition-fps 60 --transition-step 255 --transition-type any
+else
+    error "swww daemon failed to start properly"
 fi
 
 sleep 1

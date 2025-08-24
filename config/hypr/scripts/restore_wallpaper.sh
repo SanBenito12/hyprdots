@@ -15,7 +15,21 @@ if pgrep -x hyprpaper >/dev/null 2>&1; then
   echo "Detectado 'hyprpaper' en ejecución. Deteniéndolo para evitar conflictos con swww..."
   pkill -x hyprpaper || true
 fi
-pgrep -x swww-daemon >/dev/null 2>&1 || swww-daemon >/dev/null 2>&1 & disown
+# Proper swww daemon initialization
+if ! pgrep -x swww-daemon >/dev/null 2>&1; then
+  swww init >/dev/null 2>&1 || (swww-daemon >/dev/null 2>&1 & disown; sleep 0.3)
+  sleep 0.3  # Give daemon time to start
+fi
+# Verify daemon is working
+if ! swww query >/dev/null 2>&1; then
+  echo "Warning: swww daemon failed to start properly. Trying alternative method..." >&2
+  swww-daemon >/dev/null 2>&1 & disown
+  sleep 0.5
+  if ! swww query >/dev/null 2>&1; then
+    echo "Error: Could not initialize swww daemon" >&2
+    exit 1
+  fi
+fi
 
 choose_and_apply() {
   local img="$1"
