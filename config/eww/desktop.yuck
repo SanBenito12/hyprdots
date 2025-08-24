@@ -55,7 +55,7 @@
       (button :class "test" :onclick "systemctl suspend" "")
     )
     (box :spacing 10
-      (button :class "test" :onclick "hyprshot-gui &" "󰹑 ")
+      (button :class "test" :onclick "flameshot gui &" "󰹑 ")
       (button :class "test" :onclick "thunar ~ & eww open actioncenter --toggle &" " ")
       (button :class "test" :onclick "bash lightmode.sh" "")
     )

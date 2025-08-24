@@ -104,14 +104,9 @@ if ! git clone https://github.com/SanBenito12/hyprdots.git; then
 fi
     cd hyprdots || { error "Cannot enter dotfiles directory"; exit 1; }
 
-# Layout update
-LAYOUT=$(localectl status | awk -F': ' '/X11 Layout/{print $2}')
-if [[ -z $LAYOUT ]]; then
-    error "Could not detect keyboard layout."
-else
-    info "Updating layout in hyprland.conf..."
-    sed -i "s/kb_layout = tr/kb_layout = ${LAYOUT}/g" ./config/hypr/hyprland.conf
-fi
+# Layout update - Force latam
+info "Setting keyboard layout to latam..."
+sed -i "s/kb_layout = tr/kb_layout = latam/g" ./config/hypr/hyprland.conf
 
 # Move scripts/configs
 info "Moving scripts and configs..."

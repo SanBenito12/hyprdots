@@ -17,7 +17,8 @@ Application Shortcuts:
 - SUPER + O: Color Picker (alternative with wlogout)
 - SUPER + W: Launch or close waybar
 - SUPER + H: Launch help menu
-- SUPER + PRINT: Take a screenshot (hyprshot-gui)
+- SUPER + PRINT: Take full screenshot (flameshot)
+- SUPER + SHIFT + PRINT: Take region screenshot (flameshot GUI)
 - SUPER + S: Open application menu (rofi dmenu)
 - SUPER + R: Open application menu (rofi run)
 - SUPER + Q: Open quick menu (rofi)

@@ -67,7 +67,7 @@
       (box :spacing 10
         (button 
         :class "button" 
-        :onclick "eww open actioncenter --toggle && hyprshot-gui &" "󰹑 ")
+        :onclick "eww open actioncenter --toggle && flameshot gui &" "󰹑 ")
     
         (button 
         :class "button" 
