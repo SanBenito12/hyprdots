@@ -149,4 +149,4 @@ vim.keymap.set("n", "<leader>fb", function()
 end, { desc = "Telescope File Browser (includes hidden)" })
 
 -- Load custom colorscheme
-vim.cmd("colorscheme binaryharbinger")
+vim.cmd("colorscheme SanBenito12")

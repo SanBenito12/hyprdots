@@ -1,10 +1,10 @@
-" Binary Harbinger neovim Theme
+" SanBenito12 neovim Theme
 hi clear
 if exists("syntax_on")
   syntax reset
 endif
 set background=dark
-let g:colors_name = "binaryharbinger"
+let g:colors_name = "SanBenito12"
 
 " Temel renkler
 hi Normal       guifg=#b4befe guibg=#11111a

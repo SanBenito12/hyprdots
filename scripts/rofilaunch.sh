@@ -252,7 +252,7 @@ maintain_menu() {
             foot --override=colors.alpha=1 --app-id=Update -e bash ~/.config/scripts/update
             ;;
         "Update Rice")
-            curl -sSL https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/refs/heads/main/install.sh -o install.sh
+            curl -sSL https://raw.githubusercontent.com/SanBenito12/hyprdots/refs/heads/main/install.sh -o install.sh
             foot --override=colors.alpha=1 --app-id=Update -e bash ./install.sh
             rm -rf ./install.sh
                     ;;

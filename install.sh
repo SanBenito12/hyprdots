@@ -39,7 +39,7 @@ if ! check_dep gum; then
     fi
 fi
 
-echo -e "   Binary Harbinger's Hyprland dotfiles\n\n"
+echo -e "   SanBenito12's Hyprland dotfiles\n\n"
 gum confirm "Proceed with setup?" || exit 0
 
 # Update system

@@ -1,7 +1,7 @@
 
 ----------------------------------------------------------------------------------------
 
-<h1 align="center">Hyprland Dotfiles by Binary Harbinger</h1>
+<h1 align="center">Hyprland DotfilesB</h1>
 
 ----------------------------------------------------------------------------------------
 
@@ -21,7 +21,7 @@
 🔍 Rofi
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/rofi.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/rofi.GIF)
 
 <p></details>
 
@@ -29,7 +29,7 @@
 ⚙️ Rofi Menu
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/rofiMenu.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/rofiMenu.GIF)
 
 <p></details>
 
@@ -37,7 +37,7 @@
 ⚙️ Action Center
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/center.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/center.GIF)
 
 <p></details>
 
@@ -45,7 +45,7 @@
 🔔 SwayNC
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/swaync.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/swaync.GIF)
 
 <p></details>
 
@@ -53,7 +53,7 @@
 ⌨️ Terminal Applications
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/terminal.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/terminal.GIF)
 
 <p></details>
 
@@ -61,7 +61,7 @@
 💻 Desktop Widgets
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/desktop.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/desktop.GIF)
 
 <p></details>
 
@@ -69,7 +69,7 @@
 🚪 Session Options
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/wlogout.GIF)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/wlogout.GIF)
 
 <p></details>
 
@@ -98,10 +98,10 @@ _If you get errors during and after installation try to enable multilib repistor
 
 ***
 
-## Check other Binary themes
+## Check other SanBenito12 themes
 
-[SDDM](https://github.com/BinaryHarbinger/sddm-binary-theme)
-[Heroic Games Launcher](https://github.com/BinaryHarbinger/Heroic-Games-Launcher-Binary-Theme)
+[SDDM](https://github.com/SanBenito12/sddm-binary-theme)
+[Heroic Games Launcher](https://github.com/SanBenito12/Heroic-Games-Launcher-Binary-Theme)
 
 
 ----------------------------------------------------------------------------------------
