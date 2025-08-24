@@ -1,39 +1,52 @@
 #!/bin/bash
+set -euo pipefail
 
-if [ -z "$1" ]; then
-    echo "Usage: $0 [--set <File Location> | --reload]"
-    exit 1
-fi
+usage() {
+  echo "Usage: $0 [--set <FILE> | --reload]" >&2
+}
 
-case $1 in
-    --set|-s)
-        if [ -z "$2" ]; then
-            echo "Error: Missing file location for --set option."
-            exit 1
-        fi
-        if [[ "$2" != /* ]]; then
-            filepath="$(pwd)/$2"
-        else
-            filepath="$2"
-        fi
-        echo "Wallpaper set to $filepath."
-        ln -sf "$filepath" ~/.config/hypr/wallppr.png
-        # Save current wallpaper for persistence
-        echo "$filepath" > ~/.config/hypr/current_wallpaper
-		swww img "$filepath" --transition-fps 60 --transition-step 255 --transition-type wipe
-		sleep 1
-        echo "Hyprpaper reloaded."
-        ;;
-    --reload|-r)
-        pkill swww-deamon
-		sleep 2
-        swww-deamon > /dev/null 2>&1 & disown
-        eww reload > /dev/null 2>&1
-        echo "Hyprpaper and Eww reloaded."
-        ;;
-    *)
-        echo "Invalid option: $1"
-        echo "Usage: $0 [--set <File Location> | --reload]"
-        exit 1
-        ;;
+[ "${1-}" != "" ] || { usage; exit 1; }
+
+expand_path() {
+  local in="$1"
+  # Expand leading ~ manually, then resolve relative paths
+  if [[ "$in" == ~/* ]]; then
+    in="$HOME/${in#~/}"
+  fi
+  if [[ "$in" != /* ]]; then
+    in="$(realpath -m "$in")"
+  fi
+  echo "$in"
+}
+
+case "$1" in
+  --set|-s)
+    if [ "${2-}" = "" ]; then
+      echo "Error: Missing file location for --set option." >&2
+      usage; exit 1
+    fi
+    filepath="$(expand_path "$2")"
+    if [ ! -f "$filepath" ]; then
+      echo "Error: File not found: $filepath" >&2
+      exit 1
+    fi
+    echo "Wallpaper set to $filepath."
+    ln -sf "$filepath" "$HOME/.config/hypr/wallppr.png"
+    # Save current wallpaper for persistence
+    printf '%s' "$filepath" > "$HOME/.config/hypr/current_wallpaper"
+    # Ensure daemon is running, then apply image
+    pgrep -x swww-daemon >/dev/null 2>&1 || swww-daemon >/dev/null 2>&1 & disown
+    swww img "$filepath" --transition-fps 60 --transition-step 255 --transition-type any
+    ;;
+  --reload|-r)
+    pkill -x swww-daemon >/dev/null 2>&1 || true
+    sleep 0.5
+    swww-daemon >/dev/null 2>&1 & disown
+    eww reload >/dev/null 2>&1 || true
+    echo "swww daemon and Eww reloaded."
+    ;;
+  *)
+    echo "Invalid option: $1" >&2
+    usage; exit 1
+    ;;
 esac
