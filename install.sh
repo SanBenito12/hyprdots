@@ -105,8 +105,8 @@ fi
     cd hyprdots || { error "Cannot enter dotfiles directory"; exit 1; }
 
 # Layout update - Force latam
-info "Setting keyboard layout to latam..."
-sed -i "s/kb_layout = tr/kb_layout = latam/g" ./config/hypr/hyprland.conf
+info "Setting keyboard layout to latam (Hyprland config)..."
+sed -i "s/kb_layout = tr/kb_layout = latam/g" ./config/hypr/hyprland.conf || true
 
 # Move scripts/configs
 info "Moving scripts and configs..."

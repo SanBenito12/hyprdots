@@ -6,7 +6,15 @@ WALLPAPER_FILE="$HOME/.config/hypr/current_wallpaper"
 DEFAULT_WALLPAPER="$HOME/.config/hypr/wallpapers/Lines.png"
 SYMLINK_PATH="$HOME/.config/hypr/wallppr.png"
 
-# Ensure swww daemon is running
+# Ensure swww is available and avoid conflicts with hyprpaper
+if ! command -v swww >/dev/null 2>&1; then
+  echo "Error: 'swww' no está instalado o no está en PATH." >&2
+  exit 0
+fi
+if pgrep -x hyprpaper >/dev/null 2>&1; then
+  echo "Detectado 'hyprpaper' en ejecución. Deteniéndolo para evitar conflictos con swww..."
+  pkill -x hyprpaper || true
+fi
 pgrep -x swww-daemon >/dev/null 2>&1 || swww-daemon >/dev/null 2>&1 & disown
 
 choose_and_apply() {

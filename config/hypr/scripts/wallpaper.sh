@@ -35,10 +35,25 @@ case "$1" in
     # Save current wallpaper for persistence
     printf '%s' "$filepath" > "$HOME/.config/hypr/current_wallpaper"
     # Ensure daemon is running, then apply image
+    if ! command -v swww >/dev/null 2>&1; then
+      echo "Error: 'swww' no está instalado o no está en PATH." >&2
+      echo "Instálalo (ej. Arch: sudo pacman -S swww) y reintenta." >&2
+      exit 1
+    fi
+    # Evita conflictos si hyprpaper está activo
+    if pgrep -x hyprpaper >/dev/null 2>&1; then
+      echo "Detectado 'hyprpaper' en ejecución. Deteniéndolo para evitar conflictos con swww..."
+      pkill -x hyprpaper || true
+    fi
     pgrep -x swww-daemon >/dev/null 2>&1 || swww-daemon >/dev/null 2>&1 & disown
     swww img "$filepath" --transition-fps 60 --transition-step 255 --transition-type any
     ;;
   --reload|-r)
+    # Evita conflictos si hyprpaper está activo
+    if pgrep -x hyprpaper >/dev/null 2>&1; then
+      echo "Detectado 'hyprpaper' en ejecución. Deteniéndolo para evitar conflictos con swww..."
+      pkill -x hyprpaper || true
+    fi
     pkill -x swww-daemon >/dev/null 2>&1 || true
     sleep 0.5
     swww-daemon >/dev/null 2>&1 & disown

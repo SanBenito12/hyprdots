@@ -43,8 +43,8 @@ cp -rf ./config/* ~/.config/ || error "Failed to copy configs"
 chmod +x ~/.config/hypr/scripts/* ~/.config/eww/scripts/* || true
 
 # Force latam keyboard layout after config update
-info "Ensuring latam keyboard layout..."
-sed -i "s/kb_layout = tr/kb_layout = latam/g" ~/.config/hypr/hyprland.conf
+info "Ensuring latam keyboard layout (Hyprland config)..."
+sed -i "s/kb_layout = tr/kb_layout = latam/g" ~/.config/hypr/hyprland.conf || true
 
 # Restore wallpaper preference if it existed
 if [ -n "$CURRENT_WALLPAPER" ] && [ -f "$CURRENT_WALLPAPER" ]; then

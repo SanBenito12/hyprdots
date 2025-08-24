@@ -4,12 +4,13 @@ cd ~
 
 # Usage Information
 usage() {
-    echo "Usage: $0 [--drun | --run | --menu]"
+    echo "Usage: $0 [--drun | --run | --menu | --window | --wallpaper]"
     echo ""
-    echo "  --drun   : Launches the application launcher (drun)."
-    echo "  --run    : Launches the command runner (run)."
-    echo "  --menu   : Displays a custom menu with multiple options."
-    echo "  --window : Displays a open windows."
+    echo "  --drun      : Launches the application launcher (drun)."
+    echo "  --run       : Launches the command runner (run)."
+    echo "  --menu      : Displays a custom menu with multiple options."
+    echo "  --window    : Displays open windows."
+    echo "  --wallpaper : Opens wallpaper picker (swww)."
     exit 1
 }
 
@@ -169,30 +170,6 @@ rice_settings() {
     esac
 }
 
-wallpaper_settings() {
-    # Menu options displayed in rofi
-    options=" Lines\n Waves\n Patterns"
-
-    # Prompt user to choose an option
-    chosen=$(python ~/.config/hypr/scripts/wallpapers.py | rofi -config ~/.config/rofi/sysmenu.rasi -dmenu -p "Select an option:")
-
-    # Execute the corresponding command based on the selected option
-    case $chosen in
-        " Lines")
-            bash ~/.config/hypr/scripts/wallpaper.sh -s ~/.config/hypr/wallpapers/lines.png
-            ;;
-        " Waves")
-        bash ~/.config/hypr/scripts/wallpaper.sh -s ~/.config/hypr/wallpapers/waves.png
-            ;;
-        " Patterns")
-        bash ~/.config/hypr/scripts/wallpaper.sh -s .config/hypr/wallpapers/bgpatternblue.jpg
-            ;;
-        *)
-            echo "No option selected"
-            ;;
-    esac
-}
-
 set_wallpaper() {
 
     # Prompt user to choose an option
@@ -300,9 +277,12 @@ case "$1" in
     --menu)
         custom_menu
         ;;
+    --wallpaper)
+        set_wallpaper
+        ;;
     --widget_settings)
-    	widget_settings
-    	;;
+   	widget_settings
+   	;;
      --rice_settings)
      	rice_settings
      	;;
