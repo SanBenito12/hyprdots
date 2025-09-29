@@ -1,7 +1,7 @@
 
 ----------------------------------------------------------------------------------------
 
-<h1 align="center">Hyprland Dotfiles by Binary Harbinger</h1>
+<h1 align="center">Hyprland Dotfiles by SanBenito12</h1>
 
 ----------------------------------------------------------------------------------------
 
@@ -19,7 +19,7 @@
 🔍 Rofi
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/rofi.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/rofi.png)
 
 <p></details>
 
@@ -27,7 +27,7 @@
 ⚙️ Rofi Menu
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/rofiMenu.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/rofiMenu.png)
 
 <p></details>
 
@@ -35,7 +35,7 @@
 ⚙️ Action Center
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/center.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/center.png)
 
 <p></details>
 
@@ -43,7 +43,7 @@
 🔔 SwayNC
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/swaync.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/swaync.png)
 
 <p></details>
 
@@ -51,7 +51,7 @@
 ⌨️ Terminal Applications
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/terminal.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/terminal.png)
 
 <p></details>
 
@@ -59,7 +59,7 @@
 💻 Desktop Widgets
 </summary></p>
 
-![image](https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/preview/desktop.png)
+![image](https://raw.githubusercontent.com/SanBenito12/hyprdots/main/preview/desktop.png)
 
 <p></details>
 ----------------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ I highly recommend using [Chaotic AUR](https://aur.chaotic.cx/docs)
 
 Run this command to install:
 ```
-curl -fsSL -o install.sh https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/install.sh && chmod +x install.sh && ./install.sh
+curl -fsSL -o install.sh https://raw.githubusercontent.com/SanBenito12/hyprdots/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 
 # Installing manualy (For non-Arch based distros)
