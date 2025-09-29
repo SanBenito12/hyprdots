@@ -3,7 +3,7 @@
 set -euo pipefail
 
 if [ ! -t 0 ]; then
-    curl -fsSL -o /tmp/install.sh https://raw.githubusercontent.com/BinaryHarbinger/hyprdots/main/install.sh
+    curl -fsSL -o /tmp/install.sh https://raw.githubusercontent.com/SanBenito12/hyprdots/main/install.sh
     chmod +x /tmp/install.sh
     exec /tmp/install.sh "$@"
 fi
@@ -31,7 +31,7 @@ check_dep() {
 # --- Gum check & install ---
 if ! check_dep gum; then
     echo -e "${BLUE}Installing gum...${RESET}"
-    if ! sudo pacman -S --noconfirm gum; then
+    if ! sudo pacman -S --noconfirm --needed gum; then
         echo -e "${RED}✖ Failed to install gum. Please install it manually. ${RESET}"
         exit 1
     fi
@@ -58,7 +58,7 @@ if [[ $EUID -eq 0 ]]; then
     exit 1
 fi
 
-echo -e "   Binary Harbinger's Hyprland dotfiles\n\n"
+echo -e "   SanBenito12's Hyprland dotfiles\n\n"
 gum confirm "Proceed with setup?" || exit 0
 
 # --- Update system ---
@@ -66,11 +66,11 @@ if ! check_dep paru; then
     
     if gum confirm "Install paru?"; then
         info "Installing dependecies..."
-        sudo pacman -S --needed base-devel git
+        sudo pacman -S --noconfirm --needed base-devel git
         process "Cloning paru repository..." git clone https://aur.archlinux.org/paru.git 
         info "Building package..."
         cd paru
-        makepkg -si
+        makepkg -si --noconfirm
         cd ..
         rm -rf paru
         info "Package (paru) installed."
@@ -93,34 +93,68 @@ else
     exit 1
 fi
 
-# --- Packages ---
-PACKAGES=(
-    breeze nwg-look qt6ct papirus-icon-theme bibata-cursor-theme catppuccin-gtk-theme-mocha
-    ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-fira-code ttf-firacode-nerd otf-fira-code-symbol ttf-material-design-iconic-font ttf-cascadia-mono-nerd
-    yazi wiremix neovim fzf
-    hyprland hyprlock hypridle hyprpolkitagent hyprsunset hyprpicker
-    wlogout
-    power-profiles-daemon udiskie network-manager-applet brightnessctl
-    cliphist stow git zsh unzip fastfetch pamixer swaync foot swww
-    mpv mpd mpdris2-rs rmpc
-    base-devel
-    waybar eww
-    rofi rofimoji
+# --- Core packages (most reliable) ---
+CORE_PACKAGES=(
+    base-devel git zsh unzip
+    hyprland hyprlock hypridle hyprpolkitagent
+    waybar foot rofi
+    cliphist stow fastfetch pamixer swaync swww
+    brightnessctl udiskie network-manager-applet
+    neovim fzf yazi
+    mpv mpd
 )
 
-# Run the package installation and capture output
-output=$(bash -c "yes y | paru -S --needed ${PACKAGES[*]}")
-status=$?
+# --- Theme packages ---
+THEME_PACKAGES=(
+    breeze nwg-look qt6ct papirus-icon-theme bibata-cursor-theme
+    catppuccin-gtk-theme-mocha
+)
 
-# Use your process function for progress
-process "Installing packages..." true  # true is just a placeholder if process expects a command
+# --- Font packages ---
+FONT_PACKAGES=(
+    ttf-jetbrains-mono-nerd ttf-jetbrains-mono
+    ttf-fira-code ttf-firacode-nerd
+    otf-fira-code-symbol ttf-material-design-iconic-font
+    ttf-cascadia-mono-nerd
+)
 
-# Check status and handle error
-if [ $status -ne 0 ]; then
-    echo "$output" >&2
-    error "Package installation failed."
-    exit 1
-fi
+# --- Optional packages (may fail) ---
+OPTIONAL_PACKAGES=(
+    eww
+    wlogout
+    power-profiles-daemon
+    rofimoji
+    hyprsunset hyprpicker
+    rmpc
+)
+
+# Function to install package groups with error handling
+install_package_group() {
+    local group_name="$1"
+    local -n packages=$2
+    local critical="$3"
+
+    info "Installing $group_name..."
+
+    if process "Installing $group_name" paru -S --noconfirm --needed "${packages[@]}"; then
+        info "$group_name installed successfully."
+        return 0
+    else
+        if [ "$critical" = "true" ]; then
+            error "Critical packages ($group_name) failed to install. Aborting."
+            exit 1
+        else
+            error "Optional packages ($group_name) failed to install. Continuing..."
+            return 1
+        fi
+    fi
+}
+
+# Install packages in groups
+install_package_group "Core packages" CORE_PACKAGES true
+install_package_group "Theme packages" THEME_PACKAGES false
+install_package_group "Font packages" FONT_PACKAGES false
+install_package_group "Optional packages" OPTIONAL_PACKAGES false
 
 # --- NVIDIA detection & driver installation ---
 NVIDIGPU="yes"
@@ -141,7 +175,7 @@ fi
 if [ ! -d "./config" ]; then
     rm -rf ./hyprdots
 
-    REPO_URL="https://github.com/BinaryHarbinger/hyprdots.git"
+    REPO_URL="https://github.com/SanBenito12/hyprdots.git"
     PROXY_URL="https://gh-proxy.com/$REPO_URL"
 
     process "Cloning hyprdots repository..." git clone "$PROXY_URL"
@@ -178,10 +212,17 @@ done
 cp -r ./home/* ~/
 
 cp -r ./scripts ~/.config/
-chmod +x ~/.config/scripts/* || true
+if [ -d ~/.config/scripts ]; then
+    find ~/.config/scripts -type f -name "*.sh" -o -name "*" ! -name ".*" | xargs chmod +x 2>/dev/null || true
+fi
 
 cp -r ./config/* ~/.config/
-chmod +x ~/.config/hypr/scripts/* ~/.config/eww/scripts/* || true
+if [ -d ~/.config/hypr/scripts ]; then
+    find ~/.config/hypr/scripts -type f | xargs chmod +x 2>/dev/null || true
+fi
+if [ -d ~/.config/eww/scripts ]; then
+    find ~/.config/eww/scripts -type f | xargs chmod +x 2>/dev/null || true
+fi
 '
 if [ "$NVIDIGPU" != 'yes' ]; then
   if gum confirm "Is your main monitor external?"; then
@@ -193,12 +234,10 @@ fi
 info "Moved scripts and config files."
 
 # --- Polkit agent ---
-process "Setting up polkit agent..." systemctl --user enable --now hyprpolkitagent.service
-
-if [ $? -eq 0 ]; then
+if process "Setting up polkit agent..." systemctl --user enable --now hyprpolkitagent.service; then
     info "Polkit agent set up successfully."
 else
-    error "Failed to enable polkit agent."
+    error "Failed to enable polkit agent. Continuing anyway..."
 fi
 
 # --- MPD services ---
